@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
-mongoose.connect('mongodb+srv://<DB_USER_NAME>:<DB_PASSWORD>@cluster0-vatbg.mongodb.net/registrationFormHeruko?retryWrites=true&w=majority', {
+mongoose.connect('mongodb://localhost:27017/CheckingStatus', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, (err) => {
@@ -59,7 +59,7 @@ app.use(function (err, req, res, next) {
 });
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = 8000;
 app.listen(PORT, function () {
   console.log('Server is started on http://127.0.0.1:'+PORT);
 });

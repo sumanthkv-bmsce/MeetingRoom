@@ -50,10 +50,18 @@
 		</div>
 		<div class="form-group">
 			<form id="form1" method="post">
-				<input type="email" name="email" placeholder="E-mail" required="" class="form-control"><br/>
-				<input type="text" name="username" placeholder="Username" required="" class="form-control"><br/>
-				<input type="password" name="password" placeholder="Password" required="" class="form-control"><br/>
-				<input type="password" name="passwordConf" placeholder="Confirm Password" required="" class="form-control"><br/>
+				<input type="email" name="email" placeholder="E-mail" required="" class="form-control" required><br/>
+				<input type="text" name="username" placeholder="Username" required="" class="form-control" required><br/>
+				<label for="profession">Choose a profession:</label>
+
+					<select name="profession" id="profession" required>
+						<option value="">Select</option>
+						<option value="admin">Admin</option>
+						<option value="customer">Customer</option>
+					</select>
+
+				<input type="password" name="password" placeholder="Password" required="" class="form-control" required><br/>
+				<input type="password" name="passwordConf" placeholder="Confirm Password" required="" class="form-control" required><br/>
 				<input type="submit" value="Register" class="btn btn-success">
 			</form>
 		</div>
