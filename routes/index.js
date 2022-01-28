@@ -166,10 +166,12 @@ router.post("/postRequest",async(req,res)=> {
 		Status: "Pending"
 	}) 
 
+	var requestID;
 	record.save((err,respo)=> {
 		if(err) {
 			console.log(err);
 		}
+		requestID = respo._id;
 	})
 
 	var users = await userRequest.findOne({userId: req.session.userId});
@@ -192,7 +194,8 @@ router.post("/postRequest",async(req,res)=> {
 
 	}
 	res.send( {
-		"Success":true
+		"Success":true,
+		"RequestID": requestID
 	})
 
 })
@@ -407,6 +410,15 @@ router.post("/reallotRoom",async(req,res)=> {
 
 })
 
+router.get("/requests/:requestId",async(req,res)=> {
+
+	var requestId = req.params.requestId;
+
+	var results = await RoomRequest.findOne({ _id: new mongoDB.ObjectId(requestId) });
+
+	return res.render('trackRequest.ejs', { data : results });
+
+})
 
 router.get('/logout', function (req, res, next) {
 	console.log("logout")

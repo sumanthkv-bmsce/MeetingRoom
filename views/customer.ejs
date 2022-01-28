@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Welcome</title>
+	<title>Home</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
 	</script>
@@ -9,6 +9,66 @@
 	<link rel="stylesheet" href="./css/main.css">
 
 	<script type="text/javascript">
+
+		function copyURl(val) {
+
+			var requestID = $(val).attr('value')
+			var aux = document.createElement("input");
+
+			aux.setAttribute("value", `http://localhost:8000/requests/${requestID}`);
+
+			document.body.appendChild(aux);
+
+			aux.select();
+
+			document.execCommand("copy");
+
+			document.body.removeChild(aux);
+			
+			alert("Copied to clipboard ")
+
+		}
+		
+		function funcToPopulateMyRequests() {
+
+			$("#tabcontent").find('*').not('.labelForLoc').remove();		
+			// alert("gello")
+
+			var location = document.getElementById("FilterForRequests").value
+			$.ajax({
+				type: 'GET',
+				url: '/getCurrentUserRequests',
+				dataType: "json",
+				success: function(response){
+					//alert("a");
+						var results = response.Success;
+
+						$("#tabcontent").css({"height":"200px","overflow":"hidden","overflow-y":"scroll"});
+						for(var id in results) {
+							var temp = `<div>Location: ${results[id].locationName}</div> <div> ${results[id].Date} 
+							</div> <div>${results[id].StartTime} </div> <div>${results[id].EndTime} </div> <div>${results[id].NumberOfPeople} </div>
+							<div>${results[id].Status} </div> <div> <button id = "btn_all_request" value=${results[id]._id} onclick="copyURl(this)">Share</button> </div> <br>`
+							
+							if(location==="All" || (results[id].Status === 'Pending' && results[id].locationName===location)) {
+								$("#tabcontent").append(temp)
+							}
+						}
+
+						for(var id in results) {
+							var temp = `<div>Location: ${results[id].locationName}</div> <div> ${results[id].Date} 
+							</div> <div>${results[id].StartTime} </div> <div>${results[id].EndTime} </div> <div>${results[id].NumberOfPeople} </div>
+							<div>${results[id].Status} </div> <div> <button id = "btn_all_request" value=${results[id]._id} onclick="copyURl(this)">Share</button> </div><br>`
+							
+							if(location==="All" || (results[id].Status === 'Approved' && results[id].locationName===location)) {
+								$("#tabcontent").append(temp)
+							}
+						}
+						
+					},
+					error: function() {}
+				})
+
+		}
 
 		function populate() {
 			$.ajax({
@@ -19,11 +79,21 @@
 					//alert("a");
 						var results = response.Success;
 						$("#tabcontent").empty();
+						$("#tabcontent").append(`<label class = "labelForLoc" for="location">Select location: </label>
+						<select class = "labelForLoc" name="filter" id="FilterForRequests" onchange="funcToPopulateMyRequests()" required>
+						<option class = "labelForLoc" value="All" selected>All</option>
+						<option class = "labelForLoc" value="Bangalore">Bangalore</option>
+						<option class = "labelForLoc" value="Delhi">Delhi</option>
+						<option class = "labelForLoc" value="Mumbai">Mumbai</option>
+						</select>`);
 
+
+						// overflow:hidden; overflow-y:scroll;
+						$("#tabcontent").css({"height":"200px","overflow":"hidden","overflow-y":"scroll"});
 						for(var id in results) {
 							var temp = `<div>Location: ${results[id].locationName}</div> <div> ${results[id].Date} 
 							</div> <div>${results[id].StartTime} </div> <div>${results[id].EndTime} </div> <div>${results[id].NumberOfPeople} </div>
-							<div>${results[id].Status} </div><br>`
+							<div>${results[id].Status} </div> <div> <button id = "btn_all_request" value=${results[id]._id} onclick="copyURl(this)">Share</button> </div> <br>`
 							
 							if(results[id].Status === 'Pending') {
 								$("#tabcontent").append(temp)
@@ -33,7 +103,7 @@
 						for(var id in results) {
 							var temp = `<div>Location: ${results[id].locationName}</div> <div> ${results[id].Date} 
 							</div> <div>${results[id].StartTime} </div> <div>${results[id].EndTime} </div> <div>${results[id].NumberOfPeople} </div>
-							<div>${results[id].Status} </div><br>`
+							<div>${results[id].Status} </div> <div> <button id = "btn_all_request" value=${results[id]._id} onclick="copyURl(this)">Share</button> </div><br>`
 							
 							if(results[id].Status === 'Approved') {
 								$("#tabcontent").append(temp)
@@ -146,8 +216,8 @@
 			</select>
 		</div>
 
-		<button id = "btn_all_request" value = "hide/show">Show all requests</button>
-		<div id="tabcontent">
+		<button id = "btn_all_request" value = "show/hide">Show all requests</button>
+		<div id="tabcontent" style="display: none;">
 		</div>
 
 		<footer>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Track Request</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/css/main.css">
+
+    <script>
+        $(document).ready(function() {
+                var status = ($("#col-statusCheck").attr('value'))
+                $("#pending").addClass("active")
+                if(status === 'Approved') {
+                    $("#approved").addClass("active")
+                }
+
+        });
+    </script>
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <header class="card-header"> Requests Tracking </header>
+            <div class="card-body">
+                <h6>Request ID: <%= data._id %></h6>
+                <div class="card" >
+                    <div class="card">
+                        <div class="col"> <strong>Location:</strong> <br><%= data.locationName %> </div>
+                        <div class="col"> <strong>Start Time:</strong> <br> <%= data.StartTime %> </div>
+                        <div class="col"> <strong>End Time:</strong> <br> <%= data.EndTime %> </div>
+                        <div class="col"> <strong>Purpose:</strong> <br> <%= data.Purpose %> </div>
+                        <div class="col"> <strong>Cost:</strong> <br> <%= data.Cost %> </div>
+                        <div class="col"> <strong>Purpose:</strong> <br> <%= data.Purpose %> </div>
+                        <div class="col"> <strong>Number of people:</strong> <br> <%= data.NumberOfPeople %> </div>
+                        <div class="col"> <strong>Details:</strong> <br> <%= data.Details %> </div>
+                        <div id="col-statusCheck" value = <%= data.Status %> > <strong>Status:</strong> <br> <%= data.Status %> </div>
+                    </div>
+                </div>
+                <div class="track">
+                    <div id = "pending" class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Pending</span> </div>
+                    <div id = "approved" class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Approved</span> </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

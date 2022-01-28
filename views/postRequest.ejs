@@ -47,7 +47,7 @@
 					data: $('#form').serialize(),
 					dataType: "json",
 					success: function(response){
-						alert("Successfully requested");
+						alert(response.RequestID);
                         // document.getElementById("aa").click();
          				},
          			error: function() {}
